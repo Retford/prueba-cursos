@@ -1,15 +1,15 @@
 <template>
-  <form @submit.prevent="agregarCurso" class="form-container">
-    <h2 class="form-title">Agregar Curso</h2>
+  <form @submit.prevent="manejarEnvio" class="form-container">
+    <h2 class="form-title">{{ esEdicion ? 'Editar Curso' : 'Agregar Curso' }}</h2>
 
     <div class="form-group">
       <label>Nombre del curso</label>
-      <input v-model="curso.nombre" type="text" placeholder="Ej. Desarrollo Web" required />
+      <input v-model="cursoLocal.nombre" type="text" placeholder="Ej. Desarrollo Web" required />
     </div>
 
     <div class="form-group">
       <label>Categoría</label>
-      <select v-model="curso.categoria" multiple>
+      <select v-model="cursoLocal.categoria" multiple>
         <option value="programacion">Programación</option>
         <option value="diseño">Diseño</option>
         <option value="marketing">Marketing</option>
@@ -18,45 +18,55 @@
 
     <div class="form-group">
       <label>Descripción</label>
-      <textarea v-model="curso.descripcion" placeholder="Breve descripción del curso" required></textarea>
+      <textarea v-model="cursoLocal.descripcion" placeholder="Breve descripción del curso" required></textarea>
     </div>
 
     <div class="form-grid">
       <div class="form-group">
         <label>Capacidad</label>
-        <input v-model.number="curso.capacidad" type="number" placeholder="Cantidad de alumnos" required />
+        <input v-model.number="cursoLocal.capacidad" type="number" placeholder="Cantidad de alumnos" required />
       </div>
 
       <div class="form-group">
         <label>Precio</label>
-        <input v-model.number="curso.precio" type="number" placeholder="S/ 0.00" required />
+        <input v-model.number="cursoLocal.precio" type="number" placeholder="S/ 0.00" required />
       </div>
     </div>
 
     <div class="form-grid">
       <div class="form-group">
         <label>Fecha de Inicio</label>
-        <input v-model="curso.fechaInicio" type="date" required />
+        <input v-model="cursoLocal.fechaInicio" type="date" required />
       </div>
 
       <div class="form-group">
         <label>Fecha de Fin</label>
-        <input v-model="curso.fechaFin" type="date" required />
+        <input v-model="cursoLocal.fechaFin" type="date" required />
       </div>
     </div>
 
     <button type="submit" class="submit-button">
-      Agregar Curso
+      {{ esEdicion ? 'Actualizar Curso' : 'Agregar Curso' }}
+    </button>
+
+    <button v-if="esEdicion" type="button" @click="cancelarEdicion" class="cancel-button">
+      Cancelar
     </button>
   </form>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useCourseStore } from '@/stores/courseStore';
 
+const props = defineProps({
+  curso: Object,
+});
+
+const emit = defineEmits(['cancelar', 'curso-actualizado', 'curso-agregado']);
 const store = useCourseStore();
-const curso = ref({
+
+const cursoLocal = ref({
   nombre: '',
   categoria: [],
   descripcion: '',
@@ -66,11 +76,33 @@ const curso = ref({
   precio: 0
 });
 
-const agregarCurso = () => {
-  store.addCurso(curso.value);
-  curso.value = { nombre: '', categoria: [], descripcion: '', capacidad: 0, fechaInicio: '', fechaFin: '', precio: 0 };
+const esEdicion = computed(() => !!props.curso);
+
+watch(() => props.curso, (nuevoCurso) => {
+  if (nuevoCurso) {
+    cursoLocal.value = { ...nuevoCurso };
+
+    if (!Array.isArray(cursoLocal.value.categoria)) {
+      cursoLocal.value.categoria = [cursoLocal.value.categoria];
+    }
+  }
+}, { immediate: true });
+
+const manejarEnvio = () => {
+  if (esEdicion.value) {
+    store.updateCurso(cursoLocal.value);
+    emit('curso-actualizado');
+  } else {
+    store.addCurso(cursoLocal.value);
+    emit('curso-agregado');
+  }
+};
+
+const cancelarEdicion = () => {
+  emit('cancelar');
 };
 </script>
+
 
 <style scoped>
 .form-container {

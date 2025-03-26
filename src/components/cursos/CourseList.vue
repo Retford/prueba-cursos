@@ -20,7 +20,8 @@
       </li>
     </ul>
 
-    <CourseForm v-if="cursoEditando" :curso="cursoEditando" @cancelar="cursoEditando = null" />
+    <CourseForm v-if="cursoEditando" :curso="cursoEditando" @curso-actualizado="cursoEditando = null"
+      @cancelar="cursoEditando = null" />
   </div>
 </template>
 
@@ -54,6 +55,7 @@ const filteredCursos = computed(() => {
 const verAlumnos = (id) => router.push(`/cursos/${id}/alumnos`);
 const editarCurso = (curso) => cursoEditando.value = { ...curso };
 </script>
+
 
 <style scoped>
 .container {
