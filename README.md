@@ -1,35 +1,63 @@
-# books
+# 🎓 Sistema de Gestión de Cursos
 
-This template should help get you started developing with Vue 3 in Vite.
+## 🚀 Tecnologías utilizadas
 
-## Recommended IDE Setup
+- ⚡ **Vue.js 3** - Framework progresivo para la UI.  
+- 🎨 **TailwindCSS** - Estilos modernos y responsivos.  
+- ⚙️ **Pinia** - Gestión de estado eficiente.  
+- 📡 **Axios** - Consumo de APIs REST.  
+- 🔥 **Vite** - Entorno de desarrollo rápido.  
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+---
 
-## Customize configuration
+## 📂 Instalación y Configuración
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### 1️⃣ Clonar el repositorio
 
-## Project Setup
+```bash
+git clone https://github.com/Retford/prueba-cursos.git
+cd prueba-cursos
+```
 
-```sh
+### 2️⃣ Instalar dependencias
+
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 3️⃣ Ejecutar el servidor de desarrollo
 
-```sh
+```bash
 npm run dev
 ```
 
-### Compile and Minify for Production
+> 🔹 **El proyecto se ejecutará en:** `http://localhost:5173/`  
 
-```sh
-npm run build
+---
+
+## 🛠️ Estructura del Proyecto
+
+```
+📂 src/
+│── 📁 components/        # Componentes reutilizables
+│── 📁 views/             # Páginas principales del sistema
+│── 📁 stores/            # Gestión de estado con Pinia
+│── 📁 router/            # Configuración de Vue Router
+│── 📁 assets/            # Recursos como imágenes y estilos
+│── App.vue               # Componente principal
+│── main.js               # Punto de entrada de la aplicación
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+---
 
-```sh
-npm run lint
+## 🌍 API utilizada
+
+La aplicación interactúa con la siguiente API mock:
+
+🔗 **Endpoint principal:**  
+
+```bash
+POST https://662aa18dd3f63c12f4583be5.mockapi.io/api/pt
 ```
+
+---
